@@ -1,0 +1,42 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager&lt;IdentityUser&gt; SignInManager
+@inject UserManager&lt;IdentityUser&gt; UserManager
+&lt;ul class=&quot;navbar-nav&quot;&gt;
+&lt;li class=&quot;nav-item&quot;&gt;
+&lt;a class=&quot;nav-link&quot; href=&quot;/Cart/GetUserCart&quot;&gt;
+&lt;span id=&quot;cartCount&quot; class=&quot;badge text-bg-info&quot;&gt;0&lt;/span&gt;
+&lt;i class=&quot;bi bi-cart text-white&quot;&gt;&lt;/i&gt;
+&lt;/a&gt;
+
+&lt;/li&gt;
+
+@if (SignInManager.IsSignedIn(User))
+{
+&lt;li class=&quot;nav-item&quot;&gt;
+&lt;a class=&quot;nav-link &quot; asp-area=&quot;Identity&quot; asp-page=&quot;/Account/Manage/Index&quot; title=&quot;Manage&quot;&gt;
+Hello &lt;span id=&quot;username&quot;&gt;@User.Identity?.Name! &lt;/span&gt;
+
+@if(User.IsInRole(&quot;Admin&quot;))
+{
+&lt;span&gt;(Admin)&lt;/span&gt;
+}
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li class=&quot;nav-item&quot;&gt;
+&lt;form class=&quot;form-inline&quot; asp-area=&quot;Identity&quot; asp-page=&quot;/Account/Logout&quot; asp-route-
+returnUrl=&quot;@Url.Action(&quot;Index&quot;, &quot;Home&quot;, new { area = &quot;&quot; })&quot;&gt;
+&lt;button type=&quot;submit&quot; class=&quot;nav-link btn btn-link text-dark&quot;&gt;Logout&lt;/button&gt;
+&lt;/form&gt;
+&lt;/li&gt;
+}
+else
+{
+&lt;li class=&quot;nav-item&quot;&gt;
+&lt;a class=&quot;nav-link &quot; asp-area=&quot;Identity&quot; asp-page=&quot;/Account/Register&quot;&gt;Register&lt;/a&gt;
+&lt;/li&gt;
+
+&lt;li class=&quot;nav-item&quot;&gt;
+&lt;a class=&quot;nav-link &quot; asp-area=&quot;Identity&quot; asp-page=&quot;/Account/Login&quot;&gt;Login&lt;/a&gt;
+&lt;/li&gt;
+}
+&lt;/ul&gt;

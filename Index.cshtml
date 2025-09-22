@@ -1,0 +1,101 @@
+@model MagazineDisplay
+
+@{
+
+}
+&lt;div class=&quot;my-2&quot;&gt;
+&lt;form asp-action=&quot;Index&quot; class=&quot;row row-cols-lg-auto g-3 align-items-center&quot;&gt;
+
+&lt;div class=&quot;col-12&quot;&gt;
+&lt;label class=&quot;visually-hidden&quot; for=&quot;categoryID&quot;&gt;Category&lt;/label&gt;
+&lt;select class=&quot;form-select&quot; id=&quot;categoryID&quot; name=&quot;categoryID&quot;&gt;
+
+&lt;option selected&gt;Category &lt;/option&gt;
+@foreach( var category in Model.Categories)
+{
+&lt;option selected=&quot;@(category.Id == Model.CategoryID)&quot;
+value=&quot;@category.Id&quot;&gt;@category.CategoryType&lt;/option&gt;
+
+}
+
+&lt;/select&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;col-12&quot;&gt;
+&lt;label class=&quot;visually-hidden&quot; for=&quot;sterm&quot;&gt;Search by Title&lt;/label&gt;
+&lt;div class=&quot;input-group&quot;&gt;
+&lt;div class=&quot;input-group-text&quot;&gt;&lt;/div&gt;
+&lt;input type=&quot;text&quot; class=&quot;form-control&quot; value=&quot;@Model.STerm &quot; id=&quot;sterm&quot; name=&quot;sterm&quot;
+placeholder=&quot;Search by Title&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;col-12&quot;&gt;
+&lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;Search&lt;/button&gt;
+&lt;a href=&quot;/Home/&quot; type=&quot;reset&quot; class=&quot;btn btn-dark&quot;&gt;Reset&lt;/a&gt;
+
+&lt;/div&gt;
+&lt;/form&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;w-100 mt-4 d-flex flex-wrap&quot;&gt;
+@foreach (var magazine in Model.Magazines)
+{
+
+&lt;div class=&quot;card mx-3 mb-4&quot; style=&quot;width: 11rem;&quot;&gt;
+@if (string.IsNullOrEmpty(magazine.Image))
+{
+&lt;img style=&quot;width:100%;height:300px&quot; src=&quot;/Images/no-cover.jpg&quot; class=&quot;card-img-top&quot; alt=&quot;...&quot;&gt;
+
+}
+else
+{
+&lt;img style=&quot;width:100%;height:180px&quot; src=&quot;/Images/@magazine.Image&quot; class=&quot;card-img-top&quot;
+alt=&quot;...&quot;&gt;
+}
+
+&lt;div class=&quot;card-body&quot;&gt;
+&lt;h5 class=&quot;card-title&quot;&gt; &lt;b&gt;@magazine.Title&lt;/b&gt;&lt;/h5&gt;
+&lt;p class=&quot;card-text&quot;&gt;
+
+&lt;b&gt;Category: &lt;/b&gt;@magazine.CategoryType&lt;br /&gt;
+
+&lt;b&gt;Author: &lt;/b&gt;@magazine.AuthorName&lt;br /&gt;
+&lt;b&gt;Price: &lt;/b&gt;@magazine.Price
+&lt;/p&gt;
+
+&lt;button type=&quot;button&quot; onclick=&quot;add(@magazine.Id)&quot; class=&quot;btn btn-primary&quot;&gt;Add To Cart&lt;/button&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+}
+
+&lt;/div&gt;
+
+@section Scripts {
+&lt;script&gt;
+async function add(magazineId) {
+var usernameEl = document.getElementById(&quot;username&quot;);
+if(usernameEl==null){
+window.location.href = &quot;/Identity/Account/Login&quot;;
+//var username=usernameEl.innerText;
+// if(username.length&lt;1){
+// window.location.href=&quot;/Identity/Account/Login&quot;;
+// }
+}
+try {
+var response = await fetch(`/Cart/AddItem?magazineId=${magazineId}`);
+if (response.status == 200) {
+var result = await response.json();
+var cartCountEl = document.getElementById(&quot;cartCount&quot;);
+cartCountEl.innerHTML = result;
+window.location.href = &quot;#cartCount&quot;;
+}
+}
+catch (err) {
+console.log(err);
+}
+}
+&lt;/script&gt;
+}

@@ -1,0 +1,66 @@
+@* @* @* @model Cart
+@{
+ViewData[&quot;Title&quot;] = &quot;GetUserCart&quot;;
+}
+&lt;div style=&quot;width:90%;margin:auto&quot; class=&quot;mt-2&quot;&gt;
+@if (Model != null &amp;&amp; Model.CartDetails != null &amp;&amp; Model.CartDetails.Count &gt; 0)
+{
+&lt;h5&gt;My Cart&lt;/h5&gt;
+&lt;table class=&quot;table table-striped&quot;&gt;
+&lt;tr&gt;
+&lt;th&gt;Magazine&lt;/th&gt;
+&lt;th&gt;Image&lt;/th&gt;
+&lt;th&gt;Category&lt;/th&gt;
+&lt;th&gt;Unit Price(INR)&lt;/th&gt;
+&lt;th&gt;Total Price&lt;/th&gt;
+&lt;th&gt;Action&lt;/th&gt;
+&lt;/tr&gt;
+@foreach (var item in Model.CartDetails)
+{
+&lt;tr&gt;
+&lt;td&gt;@item.Magazine.Title&lt;/td&gt;
+&lt;td&gt;
+@if (string.IsNullOrEmpty(item.Magazine.Image))
+{
+&lt;img src=&quot;/images/no-cover.jpg&quot; style=&quot;width:80px;height:100px&quot; /&gt;
+}
+else
+{
+&lt;img src=&quot;/images/@item.Magazine.Image&quot; style=&quot;width:80px;height:100px&quot; /&gt;
+}
+&lt;/td&gt;
+&lt;td&gt;@item.Magazine.Category.CategoryType&lt;/td&gt;
+&lt;td&gt;@item.Magazine.Price X @item.Quantity&lt;/td&gt;
+&lt;td&gt;@(item.Magazine.Price* item.Quantity)&lt;/td&gt;
+&lt;td&gt;
+@* Increase Quantity button should be invisible if not enough stock*@
+@if (item.Quantity &lt; item.Magazine.Stock.Quantity)
+{
+&lt;a class=&quot;btn btn-info&quot;
+href=&quot;/Cart/AddItem?magazineId=@item.MagazineId&amp;&amp;redirect=1&quot;&gt;+&lt;/a&gt;
+}
+else
+{
+&lt;span style=&quot;border: 1px solid;padding: 8px 8px;color: red;border-radius: 5px;margin-
+right:4px&quot;&gt;Out of stock &lt;/span&gt;
+}
+@* Decrement button *@
+&lt;a class=&quot;btn btn-info&quot; href=&quot;/cart/removeitem?magazineid=@item.MagazineId&quot;&gt;-&lt;/a&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+}
+&lt;/table&gt;
+&lt;div class=&quot;my-2&quot;&gt;
+&lt;h5&gt;Total(INR): &lt;/h5&gt;
+@(Model.CartDetails.Select(item =&gt; item.Magazine.Price * item.Quantity).Sum())
+
+&lt;/div&gt;
+&lt;div class=&quot;my-2&quot;&gt;
+&lt;a class=&quot;btn btn-primary&quot; href=&quot;/Cart/Checkout&quot;&gt;Checkout&lt;/a&gt;
+&lt;/div&gt;
+}
+else
+{
+&lt;h5&gt;Cart is empty&lt;/h5&gt;
+}
+&lt;/div&gt;

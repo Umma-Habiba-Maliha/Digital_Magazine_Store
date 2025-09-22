@@ -1,0 +1,71 @@
+&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;title&gt;Digital Magazine Store&lt;/title&gt;
+&lt;link href=&quot;/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot; /&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;nav class=&quot;navbar navbar-expand-lg bg-primary&quot; data-bs-theme=&quot;dark&quot;&gt;
+&lt;div class=&quot;container-fluid&quot;&gt;
+&lt;a class=&quot;navbar-brand&quot; href=&quot;#&quot;&gt;Magazine Store&lt;/a&gt;
+&lt;button class=&quot;navbar-toggler&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-
+target=&quot;#navbarColor01&quot; aria-controls=&quot;navbarColor01&quot; aria-expanded=&quot;false&quot; aria-label=&quot;Toggle navigation&quot;&gt;
+&lt;span class=&quot;navbar-toggler-icon&quot;&gt;&lt;/span&gt;
+&lt;/button&gt;
+&lt;div class=&quot;collapse navbar-collapse&quot; id=&quot;navbarColor01&quot;&gt;
+&lt;ul class=&quot;navbar-nav me-auto&quot;&gt;
+&lt;li class=&quot;nav-item&quot;&gt;
+&lt;a class=&quot;nav-link active&quot; href=&quot;/Home/Index&quot;&gt;
+Home
+&lt;span class=&quot;visually-hidden&quot;&gt;(current)&lt;/span&gt;
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li class=&quot;nav-item&quot;&gt;
+&lt;a class=&quot;nav-link&quot; href=&quot;/Home/Privacy&quot;&gt;Privacy&lt;/a&gt;
+&lt;/li&gt;
+@* &lt;li class=&quot;nav-item dropdown&quot;&gt;
+&lt;a class=&quot;nav-link dropdown-toggle&quot; data-bs-toggle=&quot;dropdown&quot; href=&quot;#&quot; role=&quot;button&quot; aria-
+haspopup=&quot;true&quot; aria-expanded=&quot;false&quot;&gt;Dropdown&lt;/a&gt;
+&lt;div class=&quot;dropdown-menu&quot;&gt;
+&lt;a class=&quot;dropdown-item&quot; href=&quot;#&quot;&gt;Action&lt;/a&gt;
+&lt;a class=&quot;dropdown-item&quot; href=&quot;#&quot;&gt;Another action&lt;/a&gt;
+&lt;a class=&quot;dropdown-item&quot; href=&quot;#&quot;&gt;Something else here&lt;/a&gt;
+&lt;div class=&quot;dropdown-divider&quot;&gt;&lt;/div&gt;
+&lt;a class=&quot;dropdown-item&quot; href=&quot;#&quot;&gt;Separated link&lt;/a&gt;
+&lt;/div&gt;
+&lt;/li&gt; *@
+&lt;/ul&gt;
+&lt;partial name=&quot;_LoginPartial&quot; /&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/nav&gt;
+&lt;div class=&quot;container&quot;&gt;
+@RenderBody()
+
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js&quot; integrity=&quot;sha384-
+FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI&quot;
+crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+loadCartCount();
+async function loadCartCount() {
+try {
+var response = await fetch(`/Cart/GetCartItemCount`);
+if (response.ok) {
+var result = await response.json();
+var cartCountEl = document.getElementById(&quot;cartCount&quot;);
+if (cartCountEl) cartCountEl.innerHTML = result;
+} else {
+console.log(&quot;GetCartItemCount failed:&quot;, response.status);
+}
+} catch (err) {
+console.log(err);
+}
+}
+&lt;/script&gt;
+&lt;/html&gt;
+@await RenderSectionAsync(&quot;Scripts&quot;, required: false)

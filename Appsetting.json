@@ -1,0 +1,15 @@
+{
+&quot;ConnectionStrings&quot;: {
+&quot;DefaultConnection&quot;: &quot;Server=DESKTOP-
+V54P1I7;Database=DigitalMagazineStore;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServe
+rCertificate=True &quot;
+},
+&quot;Logging&quot;: {
+&quot;LogLevel&quot;: {
+&quot;Default&quot;: &quot;Information&quot;,
+&quot;Microsoft.AspNetCore&quot;: &quot;Warning&quot;
+}
+},
+
+&quot;AllowedHosts&quot;: &quot;*&quot;
+}
